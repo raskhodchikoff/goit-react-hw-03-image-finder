@@ -1,8 +1,10 @@
 import { Component } from 'react';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { Button } from 'components/Button/Button';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
-import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Modal } from 'components/Modal/Modal';
 import { Searchbar } from 'components/Searchbar/Searchbar';
@@ -39,12 +41,15 @@ export class App extends Component {
     }
   }
 
-  onSubmit = searchQuery => {
-    this.setState({
-      gallery: [],
-      searchQuery,
-      loading: true,
-    });
+  onSubmit = newSearchQuery => {
+    if (newSearchQuery !== this.state.searchQuery) {
+      this.setState({
+        gallery: [],
+        searchQuery: newSearchQuery,
+        loading: true,
+        page: 1,
+      });
+    }
   };
 
   onLoadMore = () => {
@@ -75,13 +80,10 @@ export class App extends Component {
         pb={24}
       >
         <Searchbar onSubmit={this.onSubmit} />
-        <ImageGallery>
-          <ImageGalleryItem
-            galleryItems={this.state.gallery}
-            onClick={this.onClickGalleryImage}
-            url={this.state.largeImageURL}
-          />
-        </ImageGallery>
+        <ImageGallery
+          gallery={this.state.gallery}
+          openModal={this.onClickGalleryImage}
+        />
         {this.state.loading && (
           <Box mx="auto">
             <Loader />
@@ -91,6 +93,11 @@ export class App extends Component {
         {this.state.showModal && (
           <Modal onClose={this.showModal} url={this.state.largeImageURL} />
         )}
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          theme="colored"
+        />
       </Box>
     );
   }

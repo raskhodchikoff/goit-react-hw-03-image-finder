@@ -4,24 +4,16 @@ import {
   Img,
 } from 'components/ImageGalleryItem/ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ galleryItems, onClick }) => {
+export const ImageGalleryItem = ({ webformatURL, tags, onClick }) => {
   return (
-    <>
-      {galleryItems.map(({ id, webformatURL, largeImageURL }) => (
-        <ListItem key={id} onClick={() => onClick(largeImageURL)}>
-          <Img src={webformatURL} alt="" />
-        </ListItem>
-      ))}
-    </>
+    <ListItem>
+      <Img src={webformatURL} alt={tags} onClick={onClick} />
+    </ListItem>
   );
 };
 
-ImageGalleryItem.propType = {
-  galleryItems: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      webformatURL: PropTypes.string.isRequired,
-      largeImageURL: PropTypes.string.isRequired,
-    })
-  ),
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

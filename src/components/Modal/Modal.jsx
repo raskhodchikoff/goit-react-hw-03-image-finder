@@ -27,7 +27,7 @@ export class Modal extends Component {
     return (
       <Overlay onClick={this.onBackdropClick}>
         <ModalEl>
-          <img src={this.props.url} alt="" />
+          <img src={this.props.url} alt={this.props.tags} />
         </ModalEl>
       </Overlay>
     );
@@ -36,5 +36,6 @@ export class Modal extends Component {
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
-  src: PropTypes.string,
+  url: PropTypes.string.isRequired,
+  tags: PropTypes.string,
 };

@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import { toast } from 'react-toastify';
 import { FaSearch } from 'react-icons/fa';
 import {
   SearchBar,
@@ -19,11 +20,15 @@ export class Searchbar extends Component {
     this.props.onSubmit(this.state.query);
 
     if (this.state.query.trim() === '') {
-      alert('Please enter your request');
+      toast.warn('Please enter your request.', {
+        position: 'top-center',
+        autoClose: 2000,
+        theme: 'colored',
+      });
       return;
     }
-
-    this.setState({ query: '' });
+    this.props.onSubmit(this.state.query);
+    this.setState({ query: this.state.query });
   };
 
   onInputChange = event => {
